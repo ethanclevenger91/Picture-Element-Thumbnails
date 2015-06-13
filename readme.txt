@@ -1,4 +1,4 @@
-=== Wordpress Picture Element ===
+=== Picture Element Thumbnails ===
 Contributors: eclev91
 Tags: thumbnails
 Requires at least: 4.0
