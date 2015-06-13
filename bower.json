@@ -1,0 +1,8 @@
+{
+  "name": "webspec-responsive-images",
+  "version": "1.0.0",
+  "dependencies": {
+    "picturefill": "~2.3.1"
+  },
+  "devDependencies": {}
+}
