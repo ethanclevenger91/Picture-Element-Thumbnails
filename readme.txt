@@ -11,7 +11,7 @@ Get a picture element instead of an image tag for responsive images on your Word
 
 == Description ==
 
-This plugin introduces a couple of nifty functions to replace `the_post_thumbnail()` & `get_the_post_thumbnail()` in exchange for the responsive `picture` element. Use `get_the_post_picture($fallback_image_size, array($breakpoint_1=>$image_size_1, $breakpoint_2=>$image_size_2[, $id]);`
+This plugin introduces a couple of nifty functions to replace `the_post_thumbnail()` & `get_the_post_thumbnail()` in exchange for the responsive `picture` element. Use `get_the_post_picture($fallback_image_size, array($breakpoint_1=>$image_size_1, $breakpoint_2=>$image_size_2)[, $id]);`
 
 For example:
 
