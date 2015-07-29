@@ -1,8 +1,12 @@
 <?php
 /**
  * Plugin Name: Wordpress Picture Elements
- * Version: 1.0.0
+ * Version: 1.0.1
  * Description: Add functions for using the <picture> element for WP featured images
+ * Author: Ethan Clevenger
+ * Author URI: http://ethanclevenger91.github.io
+ * License:     GPL2
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
 
 class WPPictureElement {
@@ -17,22 +21,26 @@ class WPPictureElement {
 	 * @param int $post_id 
 	 * @return string
 	 */
-	function get_picture_element($default_image_size = 'thumbnail', $sizes=false, $post_id) {
+	function get_post_picture_element($default_image_size = 'thumbnail', $sizes=false, $post_id) {
 		if(!$sizes) {
 			return get_the_post_thumbnail($id, $default_image_size);
 		}
 		if(has_post_thumbnail($post_id)) {
 			wp_enqueue_script('wpe_picturefill');
 			$thumbnail_id = get_post_thumbnail_id($post_id);
-			//Add video tags for IE9? http://scottjehl.github.io/picturefill/#ie9
-			return '<picture>'
+			return self::get_picture_element($default_image_size, $sizes, $thumbnail_id);
+		}
+		return '';
+	}
+
+	function get_picture_element($default_image_size, $sizes, $thumbnail_id) {
+		//Add video tags for IE9? http://scottjehl.github.io/picturefill/#ie9
+		return '<picture>'
 					. '<!--[if IE 9]><video style="display: none;"><![endif]-->'
 		            . self::get_picture_srcs( $thumbnail_id, $sizes )
 		            . '<!--[if IE 9]></video><![endif]-->'
 		            . '<img srcset="' . wp_get_attachment_image_src( $thumbnail_id, $default_image_size)[0] . '" alt="' . self::get_img_alt( $thumbnail_id ) . '">
 		        </picture>';
-		}
-		return '';
 	}
 
 	/**
@@ -110,10 +118,6 @@ $WPPictureElement = new WPPictureElement();
  * @return null
  */
 function the_post_picture($default_image_size = 'thumbnail', $sizes=false, $post_id='') {
-	if($post_id == '') {
-		global $post;
-		$post_id = $post->ID;
-	}
 	echo get_the_post_picture($default_image_size, $sizes, $post_id);
 }
 
@@ -129,6 +133,5 @@ function get_the_post_picture($default_image_size = 'thumbnail', $sizes=false, $
 		global $post;
 		$post_id = $post->ID;
 	}
-	$post_id = get_post_thumbnail_id($post_id);
-	return get_picture_element($default_image_size, $sizes, $post_id);
+	return WPPictureElement::get_post_picture_element($default_image_size, $sizes, $post_id);
 }
