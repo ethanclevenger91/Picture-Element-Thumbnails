@@ -15,7 +15,7 @@ class WPPictureElement {
 	}
 
 	/**
-	 * Get the picture element
+	 * Get the picture element for post thumbnails
 	 * @param string $default_image_size
 	 * @param array $sizes 
 	 * @param int $post_id 
@@ -31,6 +31,22 @@ class WPPictureElement {
 			return self::get_picture_element($default_image_size, $sizes, $thumbnail_id);
 		}
 		return '';
+	}
+
+	/**
+	 * Get the picture element for attachment images
+	 * @param string $default_image_size
+	 * @param array $sizes 
+	 * @param int $attachment_id 
+	 * @return string
+	 */
+	function get_attachment_picture_element($default_image_size = 'thumbnail', $sizes=false, $attachment_id) {
+		if(!$sizes) {
+			return wp_get_attachment_image($attachment_id, $default_image_size);
+		} else {
+			wp_enqueue_script('wpe_picturefill');
+			return self::get_picture_element($default_image_size, $sizes, $attachment_id);
+		}
 	}
 
 	function get_picture_element($default_image_size, $sizes, $thumbnail_id) {
@@ -134,4 +150,19 @@ function get_the_post_picture($default_image_size = 'thumbnail', $sizes=false, $
 		$post_id = $post->ID;
 	}
 	return WPPictureElement::get_post_picture_element($default_image_size, $sizes, $post_id);
+}
+
+/**
+ * Global alternative to wp_get_attachment_image
+ * @param string $default_image_size
+ * @param array $sizes 
+ * @param int $attachment_id
+ * @return string on success, false on failure
+ */
+function get_the_attachment_picture($default_image_size = 'thumbnail', $sizes=false, $attachment_id='') {
+	if($attachment_id == '') {
+		// Not possible to retrieve an $attachment_id if not passed
+		return false;
+	}
+	return WPPictureElement::get_attachment_picture_element($default_image_size, $sizes, $attachment_id);
 }
