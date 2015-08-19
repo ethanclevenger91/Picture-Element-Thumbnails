@@ -30,10 +30,7 @@ class WPPictureElement {
 	}
 
 	function get_picture_element($default_image_size = 'thumbnail', $sizes = false, $attachment_id) {
-		if(!wp_attachment_is_image($attachment_id)) {
-			return false;
-		}
-		else if(!$sizes) {
+		if(!$sizes) {
 			return wp_get_attachment_image($attachment_id, $default_image_size);
 		} else {
 			wp_enqueue_script('wpe_picturefill');
@@ -148,9 +145,5 @@ function get_the_post_picture($default_image_size = 'thumbnail', $sizes=false, $
  * @return string on success, false on failure
  */
 function get_the_attachment_picture($default_image_size = 'thumbnail', $sizes=false, $attachment_id='') {
-	if($attachment_id == '') {
-		// Not possible to retrieve an $attachment_id if not passed
-		return false;
-	}
 	return WPPictureElement::get_picture_element($default_image_size, $sizes, $attachment_id);
 }
