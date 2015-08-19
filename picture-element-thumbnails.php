@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Wordpress Picture Elements
- * Version: 1.0.1
+ * Version: 1.0.2
  * Description: Add functions for using the <picture> element for WP featured images
  * Author: Ethan Clevenger
  * Author URI: http://ethanclevenger91.github.io
@@ -17,46 +17,31 @@ class WPPictureElement {
 	/**
 	 * Get the picture element for post thumbnails
 	 * @param string $default_image_size
-	 * @param array $sizes 
-	 * @param int $post_id 
+	 * @param array $sizes
+	 * @param int $post_id
 	 * @return string
 	 */
 	function get_post_picture_element($default_image_size = 'thumbnail', $sizes=false, $post_id) {
-		if(!$sizes) {
-			return get_the_post_thumbnail($id, $default_image_size);
-		}
 		if(has_post_thumbnail($post_id)) {
-			wp_enqueue_script('wpe_picturefill');
 			$thumbnail_id = get_post_thumbnail_id($post_id);
 			return self::get_picture_element($default_image_size, $sizes, $thumbnail_id);
 		}
 		return '';
 	}
 
-	/**
-	 * Get the picture element for attachment images
-	 * @param string $default_image_size
-	 * @param array $sizes 
-	 * @param int $attachment_id 
-	 * @return string
-	 */
-	function get_attachment_picture_element($default_image_size = 'thumbnail', $sizes=false, $attachment_id) {
+	function get_picture_element($default_image_size, $sizes, $attachment_id) {
 		if(!$sizes) {
 			return wp_get_attachment_image($attachment_id, $default_image_size);
 		} else {
 			wp_enqueue_script('wpe_picturefill');
-			return self::get_picture_element($default_image_size, $sizes, $attachment_id);
+			//Add video tags for IE9? http://scottjehl.github.io/picturefill/#ie9
+			return '<picture>'
+						. '<!--[if IE 9]><video style="display: none;"><![endif]-->'
+			            . self::get_picture_srcs( $thumbnail_id, $sizes )
+			            . '<!--[if IE 9]></video><![endif]-->'
+			            . '<img srcset="' . wp_get_attachment_image_src( $thumbnail_id, $default_image_size)[0] . '" alt="' . self::get_img_alt( $thumbnail_id ) . '">
+			        </picture>';
 		}
-	}
-
-	function get_picture_element($default_image_size, $sizes, $thumbnail_id) {
-		//Add video tags for IE9? http://scottjehl.github.io/picturefill/#ie9
-		return '<picture>'
-					. '<!--[if IE 9]><video style="display: none;"><![endif]-->'
-		            . self::get_picture_srcs( $thumbnail_id, $sizes )
-		            . '<!--[if IE 9]></video><![endif]-->'
-		            . '<img srcset="' . wp_get_attachment_image_src( $thumbnail_id, $default_image_size)[0] . '" alt="' . self::get_img_alt( $thumbnail_id ) . '">
-		        </picture>';
 	}
 
 	/**
@@ -69,7 +54,7 @@ class WPPictureElement {
 
 	/**
 	 * Grab the image's alt text meta
-	 * @param int $attachment_id 
+	 * @param int $attachment_id
 	 * @return string
 	 */
 	function get_img_alt( $attachment_id ) {
@@ -79,8 +64,8 @@ class WPPictureElement {
 
 	/**
 	 * Get the actual src tag markup
-	 * @param int $post_id 
-	 * @param array $sizes 
+	 * @param int $post_id
+	 * @param array $sizes
 	 * @return string
 	 */
 	function get_picture_srcs( $thumbnail_id, $sizes ) {
@@ -100,7 +85,7 @@ class WPPictureElement {
 
         	//otherwise...
             } elseif ( isset( $_wp_additional_image_sizes[ $_size ] ) ) {
-                $newSizes[ $_size ] = array( 
+                $newSizes[ $_size ] = array(
                 	'breakpoint' => $breakpoint,
                     'width' => $_wp_additional_image_sizes[ $_size ][ 'width' ],
                     'height' => $_wp_additional_image_sizes[ $_size ][ 'height' ],
@@ -128,9 +113,9 @@ $WPPictureElement = new WPPictureElement();
 
 /**
  * Global alternative to the_post_thumbnail()
- * @param string $default_image_size 
- * @param array $sizes 
- * @param int $post_id 
+ * @param string $default_image_size
+ * @param array $sizes
+ * @param int $post_id
  * @return null
  */
 function the_post_picture($default_image_size = 'thumbnail', $sizes=false, $post_id='') {
@@ -140,8 +125,8 @@ function the_post_picture($default_image_size = 'thumbnail', $sizes=false, $post
 /**
  * Global alternative to get_the_post_thumbnail
  * @param string $default_image_size
- * @param array $sizes 
- * @param int $post_id 
+ * @param array $sizes
+ * @param int $post_id
  * @return string
  */
 function get_the_post_picture($default_image_size = 'thumbnail', $sizes=false, $post_id='') {
@@ -155,7 +140,7 @@ function get_the_post_picture($default_image_size = 'thumbnail', $sizes=false, $
 /**
  * Global alternative to wp_get_attachment_image
  * @param string $default_image_size
- * @param array $sizes 
+ * @param array $sizes
  * @param int $attachment_id
  * @return string on success, false on failure
  */
@@ -164,5 +149,5 @@ function get_the_attachment_picture($default_image_size = 'thumbnail', $sizes=fa
 		// Not possible to retrieve an $attachment_id if not passed
 		return false;
 	}
-	return WPPictureElement::get_attachment_picture_element($default_image_size, $sizes, $attachment_id);
+	return WPPictureElement::get_picture_element($default_image_size, $sizes, $attachment_id);
 }
