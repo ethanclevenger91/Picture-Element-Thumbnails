@@ -40,9 +40,9 @@ class WPPictureElement {
 			//Add video tags for IE9? http://scottjehl.github.io/picturefill/#ie9
 			return '<picture>'
 						. '<!--[if IE 9]><video style="display: none;"><![endif]-->'
-			            . self::get_picture_srcs( $thumbnail_id, $sizes )
+			            . self::get_picture_srcs( $attachment_id, $sizes )
 			            . '<!--[if IE 9]></video><![endif]-->'
-			            . '<img srcset="' . wp_get_attachment_image_src( $thumbnail_id, $default_image_size)[0] . '" alt="' . self::get_img_alt( $thumbnail_id ) . '">
+			            . '<img srcset="' . wp_get_attachment_image_src( $attachment_id, $default_image_size)[0] . '" alt="' . self::get_img_alt( $attachment_id ) . '">
 			        </picture>';
 		}
 	}
