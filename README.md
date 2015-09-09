@@ -1,33 +1,33 @@
 # Picture Element Thumbnails #
 **Contributors:** eclev91
-  
+
 **Tags:** thumbnails
-  
+
 **Requires at least:** 4.0
-  
-**Tested up to:** 4.2.2
-  
-**Stable tag:** 4.2.2
-  
+
+**Tested up to:** 4.3
+
+**Stable tag:** 4.3
+
 **License:** GPLv2 or later
-  
+
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
-  
+
 
 Get a picture element instead of an image tag for responsive images on your WordPress site.
 
 ## Description ##
 
-This plugin introduces a couple of nifty functions to replace `the_post_thumbnail()` & `get_the_post_thumbnail()` in exchange for the responsive `picture` element. Use: 
+This plugin introduces a couple of nifty functions to replace `the_post_thumbnail()` & `get_the_post_thumbnail()` in exchange for the responsive `picture` element. Use:
 
 ```
 get_the_post_picture(
-	$fallback_image_size, 
+	$fallback_image_size,
 	array(
-		$breakpoint_1=>$image_size_1, 
+		$breakpoint_1=>$image_size_1,
 		$breakpoint_2=>$image_size_2
 	)
-	[, $id]
+	[, $id, $atts]
 );
 ```
 
@@ -35,7 +35,7 @@ For example:
 
 ```
 <?php echo get_the_post_picture(
-	'single-featured-sm', 
+	'single-featured-sm',
 	array(
 		'(min-width:768px)'=>'single-featured-md',
 		'(min-width:992px)'=>'single-featured-lg',
@@ -60,7 +60,7 @@ For example:
 
 This is really a bigger question than the scope of this plugin, but [see here](http://code.tutsplus.com/tutorials/better-responsive-images-with-the-picture-element--net-36583).
 
-Oh, you weren't talking about the picture element as a whole. There exists at least one plugin that will out-of-the-box replace all `<img>` tags with "picture" elements and set breakpoints based on the image sizes. I don't think that's enough control. This plugin gives you control over A. Which elements are replaced and B. What your breakpoints are. Though I see the benefits of the "automatic" aspect, and may implement this at a later time.
+Oh, you weren't talking about the picture element as a whole. There exists at least one plugin that will out-of-the-box replace all `<img>` tags with "picture" elements and set breakpoints based on the image sizes. But if you need art direction, you need the HTML5 `<picture>` element. This plugin gives you control over A. Which elements are replaced and B. What your breakpoints are.
 
 ### Does the order of my sizes array matter? ###
 
@@ -86,3 +86,6 @@ PRs are welcome! [See GitHub.](https://github.com/ethanclevenger91/WordpressPict
 
 ### 1.0 ###
 * Initial launch!
+
+### 1.0.2 ###
+* Added `get_the_attachment_picture()` as an alternative to `wp_get_attachment_image()`

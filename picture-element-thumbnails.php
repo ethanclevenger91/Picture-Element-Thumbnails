@@ -21,26 +21,31 @@ class WPPictureElement {
 	 * @param int $post_id
 	 * @return string
 	 */
-	function get_post_picture_element($default_image_size = 'thumbnail', $sizes=false, $post_id) {
+	function get_post_picture_element($default_image_size = 'thumbnail', $sizes=false, $post_id, $attr) {
 		if(has_post_thumbnail($post_id)) {
 			$thumbnail_id = get_post_thumbnail_id($post_id);
-			return self::get_picture_element($default_image_size, $sizes, $thumbnail_id);
+			return self::get_picture_element($default_image_size, $sizes, $thumbnail_id, $attr);
 		}
 		return '';
 	}
 
-	function get_picture_element($default_image_size = 'thumbnail', $sizes = false, $attachment_id) {
+	function get_picture_element($default_image_size = 'thumbnail', $sizes = false, $attachment_id, $attr) {
 		if(!$sizes) {
-			return wp_get_attachment_image($attachment_id, $default_image_size);
+			return wp_get_attachment_image($attachment_id, $default_image_size, '', $attr);
 		} else {
 			wp_enqueue_script('wpe_picturefill');
 			//Add video tags for IE9? http://scottjehl.github.io/picturefill/#ie9
-			return '<picture>'
+			$picture = '<picture';
+			foreach($attr as $att => $value) {
+				$picture .= ' '.$att.'="'.$value.'"';
+			}
+			$picture .='>'
 						. '<!--[if IE 9]><video style="display: none;"><![endif]-->'
 			            . self::get_picture_srcs( $attachment_id, $sizes )
 			            . '<!--[if IE 9]></video><![endif]-->'
 			            . '<img srcset="' . wp_get_attachment_image_src( $attachment_id, $default_image_size)[0] . '" alt="' . self::get_img_alt( $attachment_id ) . '">
 			        </picture>';
+			return $picture;
 		}
 	}
 
@@ -118,8 +123,8 @@ $WPPictureElement = new WPPictureElement();
  * @param int $post_id
  * @return null
  */
-function the_post_picture($default_image_size = 'thumbnail', $sizes=false, $post_id='') {
-	echo get_the_post_picture($default_image_size, $sizes, $post_id);
+function the_post_picture($default_image_size = 'thumbnail', $sizes=false, $post_id='', $attr=[]) {
+	echo get_the_post_picture($default_image_size, $sizes, $post_id, $attr);
 }
 
 /**
@@ -129,12 +134,12 @@ function the_post_picture($default_image_size = 'thumbnail', $sizes=false, $post
  * @param int $post_id
  * @return string
  */
-function get_the_post_picture($default_image_size = 'thumbnail', $sizes=false, $post_id='') {
+function get_the_post_picture($default_image_size = 'thumbnail', $sizes=false, $post_id='', $attr=[]) {
 	if($post_id == '') {
 		global $post;
 		$post_id = $post->ID;
 	}
-	return WPPictureElement::get_post_picture_element($default_image_size, $sizes, $post_id);
+	return WPPictureElement::get_post_picture_element($default_image_size, $sizes, $post_id, $attr);
 }
 
 /**
@@ -144,6 +149,6 @@ function get_the_post_picture($default_image_size = 'thumbnail', $sizes=false, $
  * @param int $attachment_id
  * @return string on success, false on failure
  */
-function get_the_attachment_picture($default_image_size = 'thumbnail', $sizes=false, $attachment_id='') {
-	return WPPictureElement::get_picture_element($default_image_size, $sizes, $attachment_id);
+function get_the_attachment_picture($default_image_size = 'thumbnail', $sizes=false, $attachment_id='', $attr=[]) {
+	return WPPictureElement::get_picture_element($default_image_size, $sizes, $attachment_id, $attr);
 }

@@ -3,7 +3,7 @@ Contributors: eclev91
 Tags: thumbnails
 Requires at least: 4.0
 Tested up to: 4.2.2
-Stable tag: 4.2.2
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,29 +13,25 @@ Get a picture element instead of an image tag for responsive images on your Word
 
 This plugin introduces a couple of nifty functions to replace `the_post_thumbnail()` & `get_the_post_thumbnail()` in exchange for the responsive `picture` element. Use:
 
-```
-get_the_post_picture(
-	$fallback_image_size, 
+`get_the_post_picture(
+	$fallback_image_size,
 	array(
-		$breakpoint_1=>$image_size_1, 
+		$breakpoint_1=>$image_size_1,
 		$breakpoint_2=>$image_size_2
 	)
 	[, $id]
-);
-```
+);`
 
 For example:
 
-```
-<?php echo get_the_post_picture(
-	'single-featured-sm', 
+`<?php echo get_the_post_picture(
+	'single-featured-sm',
 	array(
 		'(min-width:768px)'=>'single-featured-md',
 		'(min-width:992px)'=>'single-featured-lg',
 		'(min-width:1200px)'=>'single-featured'
 	)
-); ?>
-```
+); ?>`
 
 While this says 4.0 for minimum version, I would wager it'll be fine on most older installations.
 
@@ -49,7 +45,7 @@ While this says 4.0 for minimum version, I would wager it'll be fine on most old
 
 = What? =
 
-`the_post_picture()` and `get_the_post_picture()`. See the description for an example.
+Adds the functions `the_post_picture()` and `get_the_post_picture()`. See the description for an example.
 
 = Why? =
 
