@@ -89,3 +89,6 @@ PRs are welcome! [See GitHub.](https://github.com/ethanclevenger91/WordpressPict
 
 ### 1.0.2 ###
 * Added `get_the_attachment_picture()` as an alternative to `wp_get_attachment_image()`
+
+### 1.0.3 ###
+* Resolve some notices regarding static functions

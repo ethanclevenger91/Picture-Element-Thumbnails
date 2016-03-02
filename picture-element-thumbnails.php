@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Wordpress Picture Elements
- * Version: 1.0.2
+ * Version: 1.0.3
  * Description: Add functions for using the <picture> element for WP featured images
  * Author: Ethan Clevenger
  * Author URI: http://ethanclevenger91.github.io
@@ -29,7 +29,7 @@ class WPPictureElement {
 		return '';
 	}
 
-	function get_picture_element($default_image_size = 'thumbnail', $sizes = false, $attachment_id, $attr) {
+	public static function get_picture_element($default_image_size = 'thumbnail', $sizes = false, $attachment_id, $attr) {
 		if(!$sizes) {
 			return wp_get_attachment_image($attachment_id, $default_image_size, '', $attr);
 		} else {
@@ -62,7 +62,7 @@ class WPPictureElement {
 	 * @param int $attachment_id
 	 * @return string
 	 */
-	function get_img_alt( $attachment_id ) {
+	public static function get_img_alt( $attachment_id ) {
 	    $img_alt = trim( strip_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) );
 	    return $img_alt;
 	}
@@ -73,7 +73,7 @@ class WPPictureElement {
 	 * @param array $sizes
 	 * @return string
 	 */
-	function get_picture_srcs( $thumbnail_id, $sizes ) {
+	public static function get_picture_srcs( $thumbnail_id, $sizes ) {
 		global $_wp_additional_image_sizes;
 		$newSizes = array();
         $intermediate_image_sizes = $sizes;
