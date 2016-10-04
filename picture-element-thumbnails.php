@@ -21,7 +21,7 @@ class WPPictureElement {
 	 * @param int $post_id
 	 * @return string
 	 */
-	function get_post_picture_element($default_image_size = 'thumbnail', $sizes=false, $post_id, $attr) {
+	public static function get_post_picture_element($default_image_size = 'thumbnail', $sizes=false, $post_id, $attr) {
 		if(has_post_thumbnail($post_id)) {
 			$thumbnail_id = get_post_thumbnail_id($post_id);
 			return self::get_picture_element($default_image_size, $sizes, $thumbnail_id, $attr);
