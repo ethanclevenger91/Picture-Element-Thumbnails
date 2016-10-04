@@ -1,0 +1,17 @@
+{
+    "name": "ethanclevenger91/picture-element-thumbnails",
+    "description": "Get a picture element instead of an image tag for responsive images on your WordPress site.",
+    "type": "wordpress-plugin",
+    "require": {
+        "composer/installers": "~1.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ethan Clevenger",
+            "email": "ethan.c.clevenger@gmail.com",
+            "homepage": "http://ethanclevenger.com/",
+            "role": "Developer"
+        }
+    ]
+}
