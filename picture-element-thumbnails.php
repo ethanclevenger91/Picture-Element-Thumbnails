@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Wordpress Picture Elements
- * Version: 1.0.3
+ * Version: 1.0.4
  * Description: Add functions for using the <picture> element for WP featured images
  * Author: Ethan Clevenger
  * Author URI: http://ethanclevenger91.github.io

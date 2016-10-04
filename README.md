@@ -5,9 +5,9 @@
 
 **Requires at least:** 4.0
 
-**Tested up to:** 4.3
+**Tested up to:** 4.4.2
 
-**Stable tag:** 4.3
+**Stable tag:** 4.4.2
 
 **License:** GPLv2 or later
 
@@ -92,3 +92,6 @@ PRs are welcome! [See GitHub.](https://github.com/ethanclevenger91/WordpressPict
 
 ### 1.0.3 ###
 * Resolve some notices regarding static functions
+
+### 1.0.4 ###
+* Resolve another static notice
